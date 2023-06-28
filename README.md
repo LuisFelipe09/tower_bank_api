@@ -1,0 +1,3 @@
+## Api sub proceso para tower bank
+
+El api contine endpoints complementarios para el proceso de cotización en los exchange y el envio de la cripto a una billetera del cliente. Para este ejemplo se usa la criptomoneda nativa de la red a la cual se esta haciendo la conexión. Cada cliente puede tener una smartcontract wallet gracias a la implementación de account abstraction. La implementación de account abstraction se puede observar en services/account/index.mjs. Los apis de prueba de binance y kraken no permite realizar retiros por la cual se hace uso de una billetra de la cual sale los fondos que son enviados a la billera del cliente.
