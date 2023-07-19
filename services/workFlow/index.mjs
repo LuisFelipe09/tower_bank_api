@@ -76,4 +76,3 @@ export const fullFlow = async (amount, supplier_provider)=> {
 
     return urls;
 }
-

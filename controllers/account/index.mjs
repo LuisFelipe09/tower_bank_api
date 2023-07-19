@@ -3,7 +3,6 @@ import { SimpleAccountAPI } from '@account-abstraction/sdk'
 import entryPoint from './entrypointAbi.json'   assert { type: 'json' };
 import 'dotenv/config'
 
-
 const provider = new  ethers.providers.JsonRpcProvider(process.env.MUMBAI_RCP);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider)
 const beneficiary = await wallet.getAddress();
@@ -18,7 +17,6 @@ const walletAPI = new SimpleAccountAPI({
     factoryAddress, 
     index: ethers.BigNumber.from(index)
 });
-
 
 export const sendCryto = async () => {
     

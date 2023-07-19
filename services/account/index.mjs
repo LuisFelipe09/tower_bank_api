@@ -11,7 +11,6 @@ const entryPointAddress = entryPointAbi.address
 const entryPoint = new ethers.Contract(entryPointAddress, entryPointAbi.abi, wallet);
 const factoryAddress = '0x58ed6520958feb1be53c1C30f87C8e659d76ec2f';
 
-
 export const sendCryto = async () => {
     
 }

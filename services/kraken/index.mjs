@@ -1,9 +1,24 @@
+import KrakenClient from 'kraken-api';
+import 'dotenv/config'
 
+const key          = process.env.API_KEY_KRAKEN;
+const secret       = process.env.API_SECRECT_KRAKEN;
+const kraken       = new KrakenClient(key, secret);
+
+const CONVERT_SYMBOL = {
+    'ETHUSD' : 'XETHZUSD'
+}
 
 export const getSymbolOrderBookTicker = async (symbol) => {
+    symbol = CONVERT_SYMBOL['ETHUSD'] || symbol;
+
+    let response = await kraken.api('Ticker', { symbol });
+    const tickerData = response.result[symbol];
+    const bidPrice = tickerData.c[0];
+
     return {
-        symbol: "ETHUSDT",
-        bidPrice: "1899.64000000",
+        symbol: symbol,
+        bidPrice: bidPrice,
         bidQty: "0.36361000",
         askPrice: "1897.67000000",
         askQty: "0.43211000"
