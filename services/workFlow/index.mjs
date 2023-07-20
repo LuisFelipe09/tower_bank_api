@@ -56,17 +56,16 @@ export const newOrder = async (orders, symbol) => {
     return ordersCreated;
 }
 
-export const withDraw = async(coins) =>{
+export const withDraw = async(coins, symbol) =>{
     return await Promise.all(coins.map(async(coin)=>{
-        console.log(coin.origQty);
-        return await tranferDummyETH(coin.origQty);
+        return await tranferDummyETH(coin.origQty, symbol);
     }));
 }
 
 export const fullFlow = async (amount, supplier_provider, symbol = 'ETHUSDT') => {
     const orders = await matchSupplierBalance(amount, supplier_provider, symbol);
     const ordersCreated = await newOrder(orders, symbol);
-    const transactions = await withDraw(ordersCreated);
+    const transactions = await withDraw(ordersCreated, symbol);
     const urls = transactions.map((txn)=>{
         return { url: txn.hash}
     })

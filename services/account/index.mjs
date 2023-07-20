@@ -11,6 +11,12 @@ const entryPointAddress = entryPointAbi.address
 const entryPoint = new ethers.Contract(entryPointAddress, entryPointAbi.abi, wallet);
 const factoryAddress = '0x58ed6520958feb1be53c1C30f87C8e659d76ec2f';
 
+const contractsToken = {
+	'ETHUSDT' : '0x5d209D3D956c1aCc1F3216e7187e3f05f4dCAc21',
+    'BTCUSDT': '0x05A5Af51AE6054F943146301cF54e6d51D66C5aA',
+    'LTCUSDT': '0xC5BF1D749e26B04b69b184F4f8246D4C4504B9Ef'
+}
+
 export const sendCryto = async () => {
 
 }
@@ -39,10 +45,12 @@ export const transferDummy = async (index = 0) => {
     return tranx;
 }
 
-export const tranferDummyETH = async (amount, index= 0) => {
+export const tranferDummyETH = async (amount, symbol ,index= 0) => {
+
+	const addressContract = contractsToken[symbol];
 
     const addressWallet = await walletAddress(index);
-    const ethContract = new ethers.Contract('0x5d209D3D956c1aCc1F3216e7187e3f05f4dCAc21', wethabi, provider);
+    const ethContract = new ethers.Contract(addressContract, wethabi, provider);
     const ethWithSigner = ethContract.connect(wallet);
 
     // Each eth has 18 decimal places
