@@ -1,4 +1,4 @@
-import { matchSupplierBalance, newOrder, fullFlow} from "../../services/workFlow/index.mjs"
+import { matchSupplierBalance, newOrder, fullFlow, quotePrice} from "../../services/workFlow/index.mjs"
 
 export const match = async (req, res) => {
     let ejemplo1 = await matchSupplierBalance(100, [{provider: 'binance', balance: 100}, {provider: 'kraken', balance: 100}],'ETHUSDT');
@@ -21,7 +21,15 @@ export const createOrders = async (req, res) => {
 
 }
 
-export const fullFlowProcess = async(req, res) => {
-    const result = await fullFlow(100, [{provider: 'binance', balance: 100}, {provider: 'kraken', balance: 100}]);
+export const fullFlowProcess = async(req, res) => { 
+    const {symbol, amount} = req.body;
+
+    const result = await fullFlow(amount, [{provider: 'binance', balance: 100}, {provider: 'kraken', balance: 100}], symbol);
+    return res.status(200).json(result);
+}
+
+export const quote = async(req, res) =>{
+    const symbol = req.params.symbol;
+    const result = await quotePrice(symbol);
     return res.status(200).json(result);
 }

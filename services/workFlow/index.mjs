@@ -8,7 +8,8 @@ import {
 } from "../kraken/index.mjs"
 
 import {
-    transferDummy
+    transferDummy,
+    tranferDummyETH
 } from "../account/index.mjs"
 
 
@@ -60,13 +61,13 @@ export const newOrder = async (orders, symbol) => {
 }
 
 export const withDraw = async(coins) =>{
-    return await Promise.all(coins.map(async(coins)=>{
-        return await transferDummy();
+    return await Promise.all(coins.map(async(coin)=>{
+        console.log(coin.origQty);
+        return await tranferDummyETH(coin.origQty);
     }));
 }
 
-export const fullFlow = async (amount, supplier_provider)=> {
-    const symbol = 'ETHUSDT';
+export const fullFlow = async (amount, supplier_provider, symbol = 'ETHUSDT') => {
     const orders = await matchSupplierBalance(amount, supplier_provider, symbol);
     const ordersCreated = await newOrder(orders, symbol);
     const transactions = await withDraw(ordersCreated);
@@ -75,4 +76,22 @@ export const fullFlow = async (amount, supplier_provider)=> {
     })
 
     return urls;
+}
+
+
+export const quotePrice = async(symbol) => {
+    const priceBinance = await binancePrice(symbol);
+    const priceKraken = await krakenPrice(symbol);
+    
+    return [
+        {
+            provider: 'binance',
+            price: priceBinance.bidPrice
+
+        },
+        {
+            provider: 'kraken',
+            price: priceKraken.bidPrice
+        }
+    ]
 }
