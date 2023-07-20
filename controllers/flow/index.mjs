@@ -31,5 +31,7 @@ export const fullFlowProcess = async(req, res) => {
 export const quote = async(req, res) =>{
     const symbol = req.params.symbol;
     const result = await quotePrice(symbol);
-    return res.status(200).json(result);
+    return res.status(200).json(result.sort(function(a, b) {
+        return a.price - b.price;
+      }));
 }

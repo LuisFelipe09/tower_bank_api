@@ -6,15 +6,17 @@ const secret       = process.env.API_SECRECT_KRAKEN;
 const kraken       = new KrakenClient(key, secret);
 
 const CONVERT_SYMBOL = {
-    'ETHUSD' : 'XETHZUSD'
+    'ETHUSDT' : 'XETHZUSD',
+    'BTCUSDT': 'XXBTZUSD',
+    'LTCUSDT': 'XLTCZUSD'
 }
 
 export const getSymbolOrderBookTicker = async (symbol) => {
-    symbol = CONVERT_SYMBOL['ETHUSD'] || symbol;
+    symbol = CONVERT_SYMBOL[symbol] || symbol;
 
     let response = await kraken.api('Ticker', { symbol });
     const tickerData = response.result[symbol];
-    const bidPrice = tickerData.c[0];
+    const bidPrice = tickerData ? tickerData.c[0] : Number.MAX_SAFE_INTEGER;
 
     return {
         symbol: symbol,

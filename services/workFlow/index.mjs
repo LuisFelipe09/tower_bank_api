@@ -12,12 +12,10 @@ import {
     tranferDummyETH
 } from "../account/index.mjs"
 
-
 const orderProviders = {
     'binance': binanceNewOrder,
     'kraken': krakenNewOrder
 }
-
 
 export const bestPrice = async (symbol) => {
     const priceBinance = await binancePrice(symbol);
@@ -29,7 +27,6 @@ export const bestPrice = async (symbol) => {
 
     return pricesProvider.sort((a, b) => a.price - b.price);
 }
-
 
 export const matchSupplierBalance = async(total_purchase, supplier_provider, symbol) => {
     let _total_purchase = total_purchase;
@@ -49,7 +46,6 @@ export const matchSupplierBalance = async(total_purchase, supplier_provider, sym
 
     return purchasesProvider;
 }
-
 
 export const newOrder = async (orders, symbol) => {
     let ordersCreated =  await Promise.all( orders.map( async (order) => {
@@ -78,16 +74,14 @@ export const fullFlow = async (amount, supplier_provider, symbol = 'ETHUSDT') =>
     return urls;
 }
 
-
 export const quotePrice = async(symbol) => {
     const priceBinance = await binancePrice(symbol);
     const priceKraken = await krakenPrice(symbol);
-    
+
     return [
         {
             provider: 'binance',
             price: priceBinance.bidPrice
-
         },
         {
             provider: 'kraken',
