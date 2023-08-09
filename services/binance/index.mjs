@@ -16,6 +16,7 @@ export const postNewOrder = async (symbol, quote) => {
       });
 
     return response.data;
+    
 }
 
 export const withDraw = async () => {

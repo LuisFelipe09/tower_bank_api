@@ -33,14 +33,21 @@ export const matchSupplierBalance = async(total_purchase, supplier_provider, sym
     let prices = await bestPrice(symbol);
     let purchasesProvider = [];
     for (let i = 0; i < supplier_provider.length; i++){
+        let amount_purchase = 0;
         let providerSupplier = prices.find((a)=> a.provider == supplier_provider[i].provider);
 
         if (!!!providerSupplier || supplier_provider[i].balance <= 0) continue;
 
         let diferencia =   _total_purchase - supplier_provider[i].balance;
 
+        if(diferencia <= 0){
+            amount_purchase =  parseFloat(_total_purchase);
+        }else{
+            amount_purchase = diferencia;
+        }
+        
         _total_purchase = diferencia < 0 ? 0 : diferencia;
-        purchasesProvider.push({provider: supplier_provider[i].provider, purchase: supplier_provider[i].balance, bid_price: providerSupplier.price});
+        purchasesProvider.push({provider: supplier_provider[i].provider,purchase: amount_purchase, balance_provider: supplier_provider[i].balance, bid_price: providerSupplier.price});
         if (_total_purchase == 0) break; 
     }
 
@@ -56,19 +63,19 @@ export const newOrder = async (orders, symbol) => {
     return ordersCreated;
 }
 
-export const withDraw = async(coins, symbol) =>{
+export const withDraw = async(coins, symbol, index) =>{
     return await Promise.all(coins.map(async(coin)=>{
-        return await tranferDummyETH(coin.origQty, symbol);
+        return await tranferDummyETH(coin.origQty, symbol, index);
     }));
 }
 
-export const fullFlow = async (amount, supplier_provider, symbol = 'ETHUSDT') => {
+export const fullFlow = async (amount, supplier_provider, symbol = 'ETHUSDT', index) => {
     const orders = await matchSupplierBalance(amount, supplier_provider, symbol);
     const ordersCreated = await newOrder(orders, symbol);
-    const transactions = await withDraw(ordersCreated, symbol);
+    const transactions = await withDraw(ordersCreated, symbol, index);
     const urls = transactions.map((txn)=>{
         return { url: txn.hash}
-    })
+    })    
 
     return urls;
 }

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {binanceGetSymbolOrderBookTicker, binanceOpenOrder} from "../controllers/binance/index.mjs"
 import {match, createOrders, fullFlowProcess, quote} from "../controllers/flow/index.mjs"
 import {krakenGetSymbolOrderBookTicker, krakenOpenOrder} from "../controllers/kraken/index.mjs"
+import {wallet} from "../controllers/account/index.mjs"
 
 const router = Router({mergeParams: true});
 
@@ -13,5 +14,6 @@ router.post("/api/flow/full", fullFlowProcess);
 router.get("/api/kraken/pricing/:symbol", krakenGetSymbolOrderBookTicker);
 router.post("/api/kraken/order/:symbol/new/:quote", krakenOpenOrder);
 router.get("/api/quote/:symbol", quote);
+router.get("/api/wallet/:phoneNumber", wallet);
 
 export default router;

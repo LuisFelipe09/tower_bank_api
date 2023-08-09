@@ -22,9 +22,9 @@ export const createOrders = async (req, res) => {
 }
 
 export const fullFlowProcess = async(req, res) => { 
-    const {symbol, amount} = req.body;
-
-    const result = await fullFlow(amount, [{provider: 'binance', balance: 100}, {provider: 'kraken', balance: 100}], symbol);
+    const {symbol, amount, phoneNumber} = req.body;
+    
+    const result = await fullFlow(amount, [{provider: 'binance', balance: 100}, {provider: 'kraken', balance: 100}], symbol, phoneNumber);
     return res.status(200).json(result);
 }
 
